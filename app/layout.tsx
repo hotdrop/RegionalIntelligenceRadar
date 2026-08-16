@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = "Regional Intelligence Radar";
+const title = "地域インテリジェンス・レーダー";
 const description = "地域創生・自治体DX・行政施策の動きを地域シグナルとして俯瞰するインテリジェンスコンソール。";
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -19,9 +19,9 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Regional Intelligence Radar<\/title>/i);
-  assert.match(html, /REGIONAL INTELLIGENCE RADAR/);
-  assert.match(html, /TODAY&#x27;S REGIONAL SIGNALS/);
-  assert.match(html, /JAPAN SIGNAL MAP/);
+  assert.match(html, /<title>地域インテリジェンス・レーダー<\/title>/i);
+  assert.match(html, /地域インテリジェンス・レーダー/);
+  assert.match(html, /本日の地域シグナル/);
+  assert.match(html, /日本シグナルマップ/);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Building your site/i);
 });

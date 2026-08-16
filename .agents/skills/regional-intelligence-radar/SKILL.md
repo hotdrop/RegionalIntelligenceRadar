@@ -29,7 +29,7 @@ Implement the prototype as a focused intelligence console for regional policy si
 - Selecting a prefecture filters the list and updates the detail to the first matching signal.
 - Selecting the same prefecture again clears that filter.
 - Category and prefecture filters combine with AND semantics.
-- Clearing either filter preserves the other; `RESET ALL` clears both.
+- Clearing either filter preserves the other; `すべて解除` clears both.
 - The selected detail must always belong to the visible filtered list.
 - An empty result must render an intentional empty state without stale detail content.
 - All controls must be keyboard reachable and expose selected state where applicable.
@@ -41,7 +41,7 @@ Implement the prototype as a focused intelligence console for regional policy si
 - Let narrow screens stack without attempting full mobile optimization.
 - Keep animation finite or subtle; honor `prefers-reduced-motion` and avoid continuously moving backgrounds.
 - Favor information hierarchy and legibility over decorative cyber effects.
-- Use English console labels and concise Japanese signal content consistently.
+- Use natural Japanese for user-facing console labels and signal content. Keep only short product marks or identifiers such as `RIR` and `MAP_01` in English when they support the console character.
 
 ## Extend data safely
 
@@ -53,5 +53,5 @@ When introducing a real API, adapt its response at the data boundary into `Regio
 
 1. Run `npm run build` for type, route, and deployment-output validation.
 2. Run `npm run lint` when component or interaction code changes.
-3. For interaction changes, confirm prefecture select/clear, category select/clear, combined filters, signal detail selection, empty results, and `RESET ALL`.
+3. For interaction changes, confirm prefecture select/clear, category select/clear, combined filters, signal detail selection, empty results, and `すべて解除`.
 4. Report browser/device checks separately from build and lint; do not claim visual confirmation if it was not performed.

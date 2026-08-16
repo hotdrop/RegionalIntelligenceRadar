@@ -1,6 +1,7 @@
 import japan from "@svg-maps/japan";
 import { prefectureNamesById, signalMarkerPositions } from "@/data/prefectures";
 import type { RegionalSignal } from "@/types/signal";
+import { importanceLabels } from "@/data/presentationLabels";
 
 type PrefectureMapProps = {
   signals: RegionalSignal[];
@@ -21,7 +22,7 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
   return (
     <section className="panel map-panel">
       <div className="panel-heading">
-        <div><span className="eyebrow">GEOSPATIAL INDEX / 47 PREFECTURES</span><h2>JAPAN SIGNAL MAP</h2></div>
+        <div><span className="eyebrow">地域インデックス / 47都道府県</span><h2>日本シグナルマップ</h2></div>
         <span className="panel-code">MAP_01</span>
       </div>
       <div className="map-stage">
@@ -50,7 +51,7 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
                     }
                   }}
                 >
-                  <title>{`${prefecture}${signal ? ` — ${signal.count} SIGNALS / ${signal.peak}` : " — NO SIGNAL"}`}</title>
+                  <title>{`${prefecture}${signal ? ` — シグナル${signal.count}件 / 重要度${importanceLabels[signal.peak]}` : " — シグナルなし"}`}</title>
                 </path>
               );
             })}
@@ -72,15 +73,15 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
         </svg>
         <div className="map-scanline" aria-hidden="true" />
         <div className="map-readout">
-          <span>ACTIVE REGION</span>
-          <strong>{selectedPrefecture ? selectedPrefecture.toUpperCase() : "ALL PREFECTURES"}</strong>
-          <small>{selectedPrefecture ? `${stats.get(selectedPrefecture)?.count ?? 0} signals detected` : `${stats.size} regions reporting signals`}</small>
+          <span>選択地域</span>
+          <strong>{selectedPrefecture ?? "全国"}</strong>
+          <small>{selectedPrefecture ? `シグナル ${stats.get(selectedPrefecture)?.count ?? 0}件` : `${stats.size}都道府県にシグナルあり`}</small>
         </div>
-        <div className="map-axis axis-x"><span>WEST</span><span>EAST</span></div>
+        <div className="map-axis axis-x"><span>西</span><span>東</span></div>
       </div>
       <div className="map-legend">
-        <span><i className="legend-dot critical" /> CRITICAL</span><span><i className="legend-dot high" /> HIGH</span><span><i className="legend-dot medium" /> MEDIUM</span>
-        <button type="button" className="text-action" onClick={() => onSelectPrefecture(null)} disabled={!selectedPrefecture}>CLEAR REGION</button>
+        <span><i className="legend-dot critical" /> 最重要</span><span><i className="legend-dot high" /> 高</span><span><i className="legend-dot medium" /> 中</span>
+        <button type="button" className="text-action" onClick={() => onSelectPrefecture(null)} disabled={!selectedPrefecture}>地域選択を解除</button>
       </div>
     </section>
   );

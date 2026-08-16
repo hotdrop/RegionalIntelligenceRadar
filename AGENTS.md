@@ -11,7 +11,7 @@ Do not add authentication, a database, news APIs, LLM integration, scraping, bac
 - Present regional information as `Signal → Opportunity`, not as a generic news list.
 - Preserve the Intelligence Console / Operations Center character without turning the page into a game UI.
 - Use a fixed dark theme, restrained cyan accents, thin borders, subtle glow, high but organized information density, and selective monospace typography.
-- Use English system labels with natural Japanese signal content.
+- Use natural Japanese for user-facing labels, categories, statuses, and signal content. Short product marks and console identifiers such as `RIR` or `MAP_01` may remain in English.
 - Prioritize 1440–1920 px landscape displays. Smaller layouts must remain usable but do not require full smartphone optimization.
 - Keep animation lightweight, subtle, and compatible with `prefers-reduced-motion`.
 
@@ -33,7 +33,7 @@ Future API or BFF responses must be adapted into `RegionalSignal[]` at the data 
 - Selecting the active prefecture/category again clears it.
 - Detail selection always points to a signal in the visible list.
 - Changing a filter selects the first matching signal; zero matches show an empty list and no stale detail.
-- `RESET ALL` clears all filters and restores the default signal.
+- `すべて解除` clears all filters and restores the default signal.
 - Clickable controls remain keyboard accessible and expose accessible names or selected state.
 
 ## Data rules
