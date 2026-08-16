@@ -1,4 +1,5 @@
-import { prefecturePositions } from "@/data/prefectures";
+import japan from "@svg-maps/japan";
+import { prefectureNamesById, signalMarkerPositions } from "@/data/prefectures";
 import type { RegionalSignal } from "@/types/signal";
 
 type PrefectureMapProps = {
@@ -25,26 +26,51 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
       </div>
       <div className="map-stage">
         <div className="map-orbit orbit-one" /><div className="map-orbit orbit-two" />
-        <div className="prefecture-map" aria-label="都道府県シグナルマップ">
-          {prefecturePositions.map(({ name, x, y }) => {
-            const signal = stats.get(name);
-            const selected = selectedPrefecture === name;
-            return (
-              <button
-                key={name}
-                type="button"
-                aria-label={`${name}${signal ? `、シグナル${signal.count}件` : "、シグナルなし"}`}
-                aria-pressed={selected}
-                className={`prefecture-cell ${signal ? `active ${signal.peak.toLowerCase()}` : ""} ${selected ? "selected" : ""}`}
-                style={{ left: `${x}%`, top: `${y}%` }}
-                onClick={() => onSelectPrefecture(selected ? null : name)}
-              >
-                <span>{name.replace(/[都府県]/g, "")}</span>
-                {signal && <i className="cell-pulse" />}
-              </button>
-            );
-          })}
-        </div>
+        <svg className="japan-map" viewBox={japan.viewBox} role="img" aria-labelledby="japan-map-title">
+          <title id="japan-map-title">都道府県別の地域シグナルを表示する日本地図</title>
+          <g className="prefecture-shapes">
+            {japan.locations.map((location) => {
+              const prefecture = prefectureNamesById[location.id];
+              const signal = stats.get(prefecture);
+              const selected = selectedPrefecture === prefecture;
+              return (
+                <path
+                  key={location.id}
+                  d={location.path}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${prefecture}${signal ? `、シグナル${signal.count}件` : "、シグナルなし"}`}
+                  aria-pressed={selected}
+                  className={`prefecture-shape ${signal ? `active ${signal.peak.toLowerCase()}` : ""} ${selected ? "selected" : ""}`}
+                  onClick={() => onSelectPrefecture(selected ? null : prefecture)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      onSelectPrefecture(selected ? null : prefecture);
+                    }
+                  }}
+                >
+                  <title>{`${prefecture}${signal ? ` — ${signal.count} SIGNALS / ${signal.peak}` : " — NO SIGNAL"}`}</title>
+                </path>
+              );
+            })}
+          </g>
+          <g className="signal-markers" aria-hidden="true">
+            {japan.locations.flatMap((location) => {
+              const prefecture = prefectureNamesById[location.id];
+              const signal = stats.get(prefecture);
+              const marker = signalMarkerPositions[location.id];
+              if (!signal || !marker) return [];
+              return [
+                <g key={location.id} className={`map-signal-marker ${signal.peak.toLowerCase()} ${selectedPrefecture === prefecture ? "selected" : ""}`}>
+                  <circle className="marker-ring" cx={marker.x} cy={marker.y} r="8" />
+                  <circle className="marker-core" cx={marker.x} cy={marker.y} r={signal.count > 1 ? "3.5" : "2.8"} />
+                </g>,
+              ];
+            })}
+          </g>
+        </svg>
+        <div className="map-scanline" aria-hidden="true" />
         <div className="map-readout">
           <span>ACTIVE REGION</span>
           <strong>{selectedPrefecture ? selectedPrefecture.toUpperCase() : "ALL PREFECTURES"}</strong>
