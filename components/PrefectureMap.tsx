@@ -11,6 +11,7 @@ import { importanceLabels } from "@/data/presentationLabels";
 type PrefectureMapProps = {
   signals: ArchivedSignal[];
   selectedPrefecture: string | null;
+  focusedPrefecture: string | null;
   onSelectPrefecture: (prefecture: string | null) => void;
 };
 
@@ -37,7 +38,7 @@ function samePoint(a: Point, b: Point) {
   return a.x === b.x && a.y === b.y;
 }
 
-export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture }: PrefectureMapProps) {
+export function PrefectureMap({ signals, selectedPrefecture, focusedPrefecture, onSelectPrefecture }: PrefectureMapProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const mapCanvasRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<DragState | null>(null);
@@ -241,14 +242,26 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
               })}
             </g>
             <g className="signal-markers" aria-hidden="true">
-              {japan.locations.flatMap((location) => {
+              {japan.locations.flatMap((location, locationIndex) => {
                 const prefecture = prefectureNamesById[location.id];
                 const signal = stats.get(prefecture);
                 const marker = signalMarkerPositions[location.id];
                 if (!signal || !marker) return [];
+                const focused = focusedPrefecture === prefecture;
                 return [
-                  <g key={location.id} className={`map-signal-marker ${signal.peak.toLowerCase()} ${selectedPrefecture === prefecture ? "selected" : ""}`}>
-                    <circle className="marker-ring" cx={marker.x} cy={marker.y} r="8" />
+                  <g
+                    key={location.id}
+                    className={`map-signal-marker ${signal.peak.toLowerCase()} ${focused ? "focused" : ""}`}
+                    data-prefecture={prefecture}
+                  >
+                    <circle
+                      className="marker-wave"
+                      cx={marker.x}
+                      cy={marker.y}
+                      r="8"
+                      style={{ animationDelay: `${locationIndex * -0.43}s` }}
+                    />
+                    {focused && <circle className="marker-focus-halo" cx={marker.x} cy={marker.y} r="10" />}
                     <circle className="marker-core" cx={marker.x} cy={marker.y} r={signal.count > 1 ? "3.5" : "2.8"} />
                   </g>,
                 ];

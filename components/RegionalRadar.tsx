@@ -124,7 +124,12 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
       />
 
       <section className="workspace">
-        <PrefectureMap signals={periodSignals} selectedPrefecture={selectedPrefecture} onSelectPrefecture={choosePrefecture} />
+        <PrefectureMap
+          signals={periodSignals}
+          selectedPrefecture={selectedPrefecture}
+          focusedPrefecture={selectedSignal?.prefecture ?? null}
+          onSelectPrefecture={choosePrefecture}
+        />
         <section className="right-column">
           <SignalList signals={filteredSignals} totalSignals={periodSignals.length} selectedSignalId={selectedSignal?.id ?? null} onSelectSignal={setSelectedSignalId} />
           <SignalDetail signal={selectedSignal} />

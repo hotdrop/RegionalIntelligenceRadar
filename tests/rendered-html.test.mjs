@@ -24,11 +24,11 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   assert.match(html, /LATEST REPORT/);
   assert.match(html, /2026-08-17/);
   assert.match(html, /ARCHIVE/);
-  assert.match(html, /2(?:<!-- -->)? WEEKS/);
   assert.match(html, /地域シグナル/);
   assert.match(html, /REPORT WEEK/);
   assert.match(html, /PUBLISHED AT/);
   assert.match(html, /日本シグナルマップ/);
+  assert.match(html, /class="map-signal-marker critical focused"[^>]*data-prefecture="福岡県"/);
   assert.match(html, /aria-label="地図を縮小"[^>]*disabled/);
   assert.match(html, /aria-label="地図表示を100%にリセット。現在100%"/);
   assert.match(html, /aria-label="地図を拡大"/);
