@@ -29,6 +29,9 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   assert.match(html, /REPORT WEEK/);
   assert.match(html, /PUBLISHED AT/);
   assert.match(html, /日本シグナルマップ/);
+  assert.match(html, /aria-label="地図を縮小"[^>]*disabled/);
+  assert.match(html, /aria-label="地図表示を100%にリセット。現在100%"/);
+  assert.match(html, /aria-label="地図を拡大"/);
   assert.doesNotMatch(html, /REALTIME|ONLINE FEED|>LIVE<|本日の地域シグナル|システム稼働中/i);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Building your site/i);
 });
