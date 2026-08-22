@@ -8,7 +8,6 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { PrefectureMap } from "@/components/PrefectureMap";
 import { SignalDetail } from "@/components/SignalDetail";
 import { SignalList } from "@/components/SignalList";
-import { categoryLabels } from "@/data/presentationLabels";
 
 function municipalityKey(prefecture: string, municipality: string) {
   return `${prefecture}\t${municipality}`;
@@ -101,11 +100,10 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
   return (
     <main className="console-shell">
       <header className="topbar">
-        <div className="brand-lockup"><span className="brand-mark">RIR</span><div><h1>地域インテリジェンス・レーダー</h1><p>地域シグナル / 公共政策 / 地域イノベーション</p></div></div>
+        <div className="brand-lockup"><span className="brand-mark">RIR</span><h1>地域インテリジェンス・レーダー</h1></div>
         <div className="system-stats">
           <span><b>LATEST REPORT</b>{latestReport?.week ?? "—"}</span>
           <span><b>SIGNALS</b>{latestReport?.signals.length ?? 0}</span>
-          <span><b>ARCHIVE</b>{archive.reports.length} WEEKS</span>
         </div>
       </header>
 
@@ -118,16 +116,12 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
         onSelectWeek={chooseWeek}
         onSelectMunicipality={chooseMunicipality}
       />
-      <CategoryFilter selectedCategory={selectedCategory} onSelectCategory={chooseCategory} />
-
-      <div className="active-filter-bar" data-visible={hasFilters}>
-        <span>絞り込み条件</span>
-        {selectedWeek !== defaultWeek && <button type="button" onClick={() => chooseWeek(defaultWeek)}>期間：{selectedWeek === ALL_WEEKS ? "All" : selectedWeek} ×</button>}
-        {selectedPrefecture && <button type="button" onClick={() => choosePrefecture(null)}>地域：{selectedPrefecture} ×</button>}
-        {selectedMunicipality && <button type="button" onClick={() => chooseMunicipality(null)}>自治体：{selectedMunicipality} ×</button>}
-        {selectedCategory && <button type="button" onClick={() => chooseCategory(null)}>カテゴリ：{categoryLabels[selectedCategory]} ×</button>}
-        {hasFilters && <button type="button" className="clear-all" onClick={clearFilters}>すべて解除</button>}
-      </div>
+      <CategoryFilter
+        selectedCategory={selectedCategory}
+        hasFilters={hasFilters}
+        onSelectCategory={chooseCategory}
+        onClearAll={clearFilters}
+      />
 
       <section className="workspace">
         <PrefectureMap signals={periodSignals} selectedPrefecture={selectedPrefecture} onSelectPrefecture={choosePrefecture} />

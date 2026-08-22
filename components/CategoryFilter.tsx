@@ -3,10 +3,12 @@ import { categoryLabels } from "@/data/presentationLabels";
 
 type CategoryFilterProps = {
   selectedCategory: SignalCategory | null;
+  hasFilters: boolean;
   onSelectCategory: (category: SignalCategory | null) => void;
+  onClearAll: () => void;
 };
 
-export function CategoryFilter({ selectedCategory, onSelectCategory }: CategoryFilterProps) {
+export function CategoryFilter({ selectedCategory, hasFilters, onSelectCategory, onClearAll }: CategoryFilterProps) {
   return (
     <div className="filter-strip">
       <span className="filter-label">カテゴリ</span>
@@ -16,6 +18,7 @@ export function CategoryFilter({ selectedCategory, onSelectCategory }: CategoryF
           <button key={category} type="button" className={selectedCategory === category ? "active" : ""} onClick={() => onSelectCategory(selectedCategory === category ? null : category)}>{categoryLabels[category]}</button>
         ))}
       </div>
+      <button type="button" className="filter-reset" onClick={onClearAll} disabled={!hasFilters}>すべて解除</button>
     </div>
   );
 }

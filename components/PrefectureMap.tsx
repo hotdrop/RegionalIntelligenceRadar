@@ -181,14 +181,13 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
   return (
     <section className="panel map-panel">
       <div className="panel-heading">
-        <div><span className="eyebrow">地域インデックス / 47都道府県</span><h2>日本シグナルマップ</h2></div>
+        <h2>日本シグナルマップ</h2>
         <div className="map-heading-actions">
           <div className="map-zoom-controls" role="group" aria-label="地図の表示倍率">
             <button type="button" aria-label="地図を縮小" onClick={() => updateZoom(zoom - ZOOM_STEP)} disabled={zoom <= MIN_ZOOM}>−</button>
             <button type="button" className="map-zoom-reset" aria-label={`地図表示を100%にリセット。現在${zoomPercent}%`} onClick={resetViewport}>{zoomPercent}%</button>
             <button type="button" aria-label="地図を拡大" onClick={() => updateZoom(zoom + ZOOM_STEP)} disabled={zoom >= MAX_ZOOM}>＋</button>
           </div>
-          <span className="panel-code">MAP_01</span>
         </div>
       </div>
       <div
@@ -259,9 +258,7 @@ export function PrefectureMap({ signals, selectedPrefecture, onSelectPrefecture 
         </div>
         <div className="map-scanline" aria-hidden="true" />
         <div className="map-readout">
-          <span>選択地域</span>
           <strong>{selectedPrefecture ?? "全国"}</strong>
-          <small>{selectedPrefecture ? `シグナル ${stats.get(selectedPrefecture)?.count ?? 0}件` : `${stats.size}都道府県にシグナルあり`}</small>
         </div>
         <div className="map-axis axis-x"><span>西</span><span>東</span></div>
       </div>

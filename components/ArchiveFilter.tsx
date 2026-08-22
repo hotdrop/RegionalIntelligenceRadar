@@ -32,7 +32,7 @@ export function ArchiveFilter({
   return (
     <div className="archive-filter" aria-label="レポート期間と自治体の絞り込み">
       <label>
-        <span>REPORT PERIOD</span>
+        <span className="sr-only">レポート期間</span>
         <select value={selectedWeek} onChange={(event) => onSelectWeek(event.target.value)}>
           {latestWeek && <option value={latestWeek}>Latest — {formatWeek(latestWeek)}</option>}
           {weeks.filter((week) => week !== latestWeek).map((week) => (
@@ -42,7 +42,7 @@ export function ArchiveFilter({
         </select>
       </label>
       <label>
-        <span>MUNICIPALITY</span>
+        <span className="sr-only">自治体</span>
         <select
           value={selectedMunicipalityKey}
           onChange={(event) => {
