@@ -1,0 +1,48 @@
+{
+  "week": "2026-08-10",
+  "generatedAt": "2026-08-10T09:00:00+09:00",
+  "signals": [
+    {
+      "id": "2026-08-10-001",
+      "prefecture": "長野県",
+      "municipality": "松本市",
+      "category": "Healthcare",
+      "title": "地域診療所を結ぶオンライン専門医相談を試験運用",
+      "summary": "地域診療所の医師が専門医へ相談できる共同窓口を設け、住民の遠距離通院を減らす実証を始めます。",
+      "importance": "HIGH",
+      "publishedAt": "2026-08-07",
+      "whyItMatters": "限られた専門医療資源を地域間で共有し、診療所で完結できる診療範囲を広げる取り組みです。",
+      "opportunity": "紹介判断の標準化、相談記録の共有、地域医療KPIの設計支援へ展開できます。",
+      "relatedTopics": ["Telemedicine", "Regional Mobility"],
+      "sourceUrl": "https://example.com/signals/nagano-specialist"
+    },
+    {
+      "id": "2026-08-10-002",
+      "prefecture": "福岡県",
+      "municipality": "北九州市",
+      "category": "GovTech",
+      "title": "庁内手続きの共通フォーム基盤を複数部局へ展開",
+      "summary": "部局ごとに異なっていた申請フォームを共通化し、入力項目と審査状況の管理を統一します。",
+      "importance": "MEDIUM",
+      "publishedAt": "2026-08-06",
+      "whyItMatters": "住民向けデジタル化だけでなく、庁内業務の共通化まで踏み込むことで継続的な改善が可能になります。",
+      "opportunity": "フォーム設計、既存業務の棚卸し、部局横断の運用ガバナンスに支援余地があります。",
+      "relatedTopics": ["GovTech", "Service Design"],
+      "sourceUrl": "https://example.com/signals/fukuoka-forms"
+    },
+    {
+      "id": "2026-08-10-003",
+      "prefecture": "北海道",
+      "municipality": "上川町",
+      "category": "Population Decline",
+      "title": "関係人口と地域事業者をつなぐ短期プロジェクト制度を開始",
+      "summary": "地域外の専門人材が1〜3か月単位で事業者の課題解決に参加する仕組みを整備します。",
+      "importance": "MEDIUM",
+      "publishedAt": "2026-08-04",
+      "whyItMatters": "移住を前提とせず、具体的な仕事を起点に地域との継続的な接点を形成する試みです。",
+      "opportunity": "課題定義、参加者マッチング、終了後の関係維持を一体化した運営モデルが考えられます。",
+      "relatedTopics": ["Migration", "Local Commerce", "Community"],
+      "sourceUrl": "https://example.com/signals/hokkaido-project"
+    }
+  ]
+}

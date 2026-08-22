@@ -14,19 +14,36 @@ export const SIGNAL_CATEGORIES = [
 ] as const;
 
 export type SignalCategory = (typeof SIGNAL_CATEGORIES)[number];
-export type SignalImportance = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+export const IMPORTANCE_LEVELS = ["LOW", "MEDIUM", "HIGH", "CRITICAL"] as const;
+export type Importance = (typeof IMPORTANCE_LEVELS)[number];
 
-export type RegionalSignal = {
+export type Signal = {
   id: string;
   prefecture: string;
   municipality: string;
   title: string;
   summary: string;
   category: SignalCategory;
-  importance: SignalImportance;
+  importance: Importance;
   publishedAt: string;
   whyItMatters: string;
   opportunity: string;
   relatedTopics: string[];
   sourceUrl: string;
+};
+
+export type WeeklySignalData = {
+  week: string;
+  generatedAt: string;
+  signals: Signal[];
+};
+
+export type ArchivedSignal = Signal & {
+  reportWeek: string;
+};
+
+export type SignalArchive = {
+  reports: WeeklySignalData[];
+  latestWeek: string | null;
+  allSignals: ArchivedSignal[];
 };

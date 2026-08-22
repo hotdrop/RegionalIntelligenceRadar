@@ -1,8 +1,8 @@
-import type { RegionalSignal } from "@/types/signal";
+import type { ArchivedSignal } from "@/types/signal";
 import { categoryLabels, importanceLabels } from "@/data/presentationLabels";
 
 type SignalListProps = {
-  signals: RegionalSignal[];
+  signals: ArchivedSignal[];
   totalSignals: number;
   selectedSignalId: string | null;
   onSelectSignal: (id: string) => void;
@@ -16,7 +16,7 @@ export function SignalList({ signals, totalSignals, selectedSignalId, onSelectSi
   return (
     <section className="panel signals-panel">
       <div className="panel-heading">
-        <div><span className="eyebrow">地域動向フィード</span><h2>本日の地域シグナル</h2></div>
+        <div><span className="eyebrow">週次レポート / SIGNAL ARCHIVE</span><h2>地域シグナル</h2></div>
         <span className="count-badge">{String(signals.length).padStart(2, "0")} / {String(totalSignals).padStart(2, "0")}</span>
       </div>
       <div className="signal-list" aria-live="polite">

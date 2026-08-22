@@ -1,4 +1,4 @@
-import type { SignalCategory, SignalImportance } from "@/types/signal";
+import type { Importance, SignalCategory } from "@/types/signal";
 
 export const categoryLabels: Record<SignalCategory, string> = {
   "Regional Mobility": "地域交通",
@@ -15,7 +15,7 @@ export const categoryLabels: Record<SignalCategory, string> = {
   "Population Decline": "人口減少",
 };
 
-export const importanceLabels: Record<SignalImportance, string> = {
+export const importanceLabels: Record<Importance, string> = {
   LOW: "低",
   MEDIUM: "中",
   HIGH: "高",

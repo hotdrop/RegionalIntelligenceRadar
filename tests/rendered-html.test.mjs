@@ -21,7 +21,14 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   const html = await response.text();
   assert.match(html, /<title>地域インテリジェンス・レーダー<\/title>/i);
   assert.match(html, /地域インテリジェンス・レーダー/);
-  assert.match(html, /本日の地域シグナル/);
+  assert.match(html, /LATEST REPORT/);
+  assert.match(html, /2026-08-17/);
+  assert.match(html, /ARCHIVE/);
+  assert.match(html, /2(?:<!-- -->)? WEEKS/);
+  assert.match(html, /地域シグナル/);
+  assert.match(html, /REPORT WEEK/);
+  assert.match(html, /PUBLISHED AT/);
   assert.match(html, /日本シグナルマップ/);
+  assert.doesNotMatch(html, /REALTIME|ONLINE FEED|>LIVE<|本日の地域シグナル|システム稼働中/i);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Building your site/i);
 });

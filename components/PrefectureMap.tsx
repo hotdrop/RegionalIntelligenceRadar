@@ -1,10 +1,10 @@
 import japan from "@svg-maps/japan";
 import { prefectureNamesById, signalMarkerPositions } from "@/data/prefectures";
-import type { RegionalSignal } from "@/types/signal";
+import type { ArchivedSignal } from "@/types/signal";
 import { importanceLabels } from "@/data/presentationLabels";
 
 type PrefectureMapProps = {
-  signals: RegionalSignal[];
+  signals: ArchivedSignal[];
   selectedPrefecture: string | null;
   onSelectPrefecture: (prefecture: string | null) => void;
 };

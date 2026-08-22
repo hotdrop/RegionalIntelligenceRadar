@@ -1,7 +1,7 @@
-import type { RegionalSignal } from "@/types/signal";
+import type { ArchivedSignal } from "@/types/signal";
 import { importanceLabels, topicLabel } from "@/data/presentationLabels";
 
-export function SignalDetail({ signal }: { signal: RegionalSignal | null }) {
+export function SignalDetail({ signal }: { signal: ArchivedSignal | null }) {
   if (!signal) {
     return <section className="panel detail-panel empty-detail"><span>シグナルを選択してください</span></section>;
   }
@@ -11,7 +11,10 @@ export function SignalDetail({ signal }: { signal: RegionalSignal | null }) {
       <div className="detail-top">
         <span className={`importance ${signal.importance.toLowerCase()}`}>{importanceLabels[signal.importance]}</span>
         <span className="detail-location">{signal.prefecture} — {signal.municipality}</span>
-        <time className="detail-date">{signal.publishedAt.replaceAll("-", ".")}</time>
+        <span className="detail-dates">
+          <span><b>REPORT WEEK</b>{signal.reportWeek.replaceAll("-", ".")}</span>
+          <span><b>PUBLISHED AT</b>{signal.publishedAt.replaceAll("-", ".")}</span>
+        </span>
       </div>
       <h3>{signal.title}</h3>
       <div className="detail-scroll">

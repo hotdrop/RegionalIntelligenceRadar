@@ -2,7 +2,7 @@
 
 ## Product source of truth
 
-Read `docs/design_v01.md` before feature, UI, or architecture work. The current product is a personal-use v0.1 prototype: a one-screen intelligence console for regional policy signals. Its success criterion is whether the UI/UX makes the direction feel worth using.
+Read `docs/design_v02.md` before feature, UI, or architecture work, and use `docs/design_v01.md` only as the original visual-design background. The current product is a local-only PoC: a one-screen viewer for manually supplied weekly regional-policy Signal reports. Its primary success criterion is whether useful Signals can be discovered continuously and reviewed clearly in meetings.
 
 Do not add authentication, a database, news APIs, LLM integration, scraping, background collection, or production operations unless the user explicitly expands the scope.
 
@@ -20,29 +20,29 @@ Do not add authentication, a database, news APIs, LLM integration, scraping, bac
 - `app/`: Next.js App Router entry points, metadata, and global styles.
 - `components/`: focused UI regions and the client-side coordinator.
 - `types/`: stable UI-facing domain contracts.
-- `data/`: replaceable prototype records and presentation metadata.
+- `data/`: weekly `YYYY-MM-DD.json` reports, their server-side loader, and presentation metadata.
 - `docs/`: product requirements and design decisions.
 
-Keep `app/page.tsx` thin. `components/RegionalRadar.tsx` owns page-level selection/filter state and derives the visible signals. Presentational components receive only needed values and callbacks. UI components may depend on `RegionalSignal`, but must not import mock records directly. Do not introduce Clean Architecture layers before an actual external data boundary requires them.
+Keep `app/page.tsx` thin: it loads the validated archive on the server and passes it into `components/RegionalRadar.tsx`. `RegionalRadar` owns page-level selection/filter state and derives the visible signals. Presentational components receive only needed values and callbacks. UI components may depend on `ArchivedSignal`, but must not import weekly JSON or the loader directly. Do not introduce Clean Architecture layers or repositories.
 
-Future API or BFF responses must be adapted into `RegionalSignal[]` at the data boundary so transport shapes do not leak into UI components.
+Do not add an API or BFF in this PoC. Weekly JSON is the intentional manual data boundary.
 
 ## Interaction invariants
 
-- Prefecture and category filters combine with AND semantics.
+- Week, prefecture, municipality, and category filters combine with AND semantics.
 - Selecting the active prefecture/category again clears it.
 - Detail selection always points to a signal in the visible list.
 - Changing a filter selects the first matching signal; zero matches show an empty list and no stale detail.
-- `すべて解除` clears all filters and restores the default signal.
+- `すべて解除` returns to Latest, clears all other filters, and restores the default signal.
 - Clickable controls remain keyboard accessible and expose accessible names or selected state.
 
 ## Data rules
 
-Mock records live in `data/mockSignals.ts` and conform to `types/signal.ts`. Use stable IDs, ISO dates, supported categories/importances, realistic but clearly fictional content, distinct analysis for `whyItMatters` and `opportunity`, and non-production source URLs for fictional records.
+Weekly reports live in automatically discovered `data/YYYY-MM-DD.json` files and conform to `WeeklySignalData` in `types/signal.ts`. The filename must match `week`, IDs must be unique across the archive, dates must use ISO formats, and categories/importances must be supported. Keep fictional sample records clearly fictional and use non-production source URLs. Do not add an index file, automatic synchronization, upload UI, or browser filesystem access.
 
 ## Verification
 
-Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For filter changes, exercise prefecture select/clear, category select/clear, their combined state, detail selection, empty results, and full reset.
+Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, exercise Latest, past weeks, All, prefecture, municipality, category, their combined state, detail selection, empty results, and full reset.
 
 Report verification honestly by layer: build/lint, automated tests, then browser/manual checks. A successful build is not visual confirmation.
 
