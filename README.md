@@ -17,11 +17,17 @@
 Node.js `>=22.13.0` と npm を使用します。
 
 ```bash
+// 脆弱性確認
+npm audit
+
+// lintとtest
+npm run lint
+npm test
+
+// 開発環境実行
 npm ci
 npm run dev
 npm run build
-npm run lint
-npm test
 ```
 
 要件は `docs/design_v01.md`、実装規約は `AGENTS.md`、Codex向けの具体的ワークフローは `.agents/skills/regional-intelligence-radar/SKILL.md` を参照してください。
