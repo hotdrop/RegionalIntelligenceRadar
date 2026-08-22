@@ -4,9 +4,9 @@
 
 import japan from "@svg-maps/japan";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { prefectureNamesById, signalMarkerPositions } from "@/data/prefectures";
+import { prefectureNamesById, signalMarkerPositions } from "@/lib/prefectures";
 import type { ArchivedSignal } from "@/types/signal";
-import { importanceLabels } from "@/data/presentationLabels";
+import { importanceLabels } from "@/lib/presentationLabels";
 
 type PrefectureMapProps = {
   signals: ArchivedSignal[];

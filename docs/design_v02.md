@@ -71,14 +71,17 @@ regional-intelligence-radar/
 │  ├─ 2026-08-31.json
 │  ├─ 2026-09-07.json
 │  └─ ...
-├─ src/
-│  ├─ components/
-│  ├─ types/
+├─ lib/
+│  ├─ loadSignalArchive.ts
+│  ├─ filterSignals.ts
 │  └─ ...
+├─ components/
+├─ types/
 └─ ...
 ```
 
 Webアプリ起動時に、`data` ディレクトリ配下のJSONファイルをすべて読み込んでください。
+`data` には週次JSONだけを置き、読み込み・絞り込み・表示用メタデータなどのTypeScriptコードは `lib` に分離してください。
 
 新しいJSONを追加した場合、できる限り追加実装や設定変更なしで読み込める構造にしてください。
 

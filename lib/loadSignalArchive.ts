@@ -130,7 +130,7 @@ export function createSignalArchive(files: Array<{ source: string; data: unknown
 }
 
 export function loadSignalArchive(): SignalArchive {
-  const modules = import.meta.glob<unknown>("./*.json", { eager: true, import: "default" });
+  const modules = import.meta.glob<unknown>("../data/*.json", { eager: true, import: "default" });
   return createSignalArchive(
     Object.entries(modules).map(([source, data]) => ({ source, data })),
   );

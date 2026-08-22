@@ -20,7 +20,8 @@ Do not add authentication, a database, news APIs, LLM integration, scraping, bac
 - `app/`: Next.js App Router entry points, metadata, and global styles.
 - `components/`: focused UI regions and the client-side coordinator.
 - `types/`: stable UI-facing domain contracts.
-- `data/`: weekly `YYYY-MM-DD.json` reports, their server-side loader, and presentation metadata.
+- `data/`: manually supplied weekly `YYYY-MM-DD.json` reports only.
+- `lib/`: server-side archive loading, filtering, and presentation metadata.
 - `docs/`: product requirements and design decisions.
 
 Keep `app/page.tsx` thin: it loads the validated archive on the server and passes it into `components/RegionalRadar.tsx`. `RegionalRadar` owns page-level selection/filter state and derives the visible signals. Presentational components receive only needed values and callbacks. UI components may depend on `ArchivedSignal`, but must not import weekly JSON or the loader directly. Do not introduce Clean Architecture layers or repositories.

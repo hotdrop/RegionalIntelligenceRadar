@@ -1,4 +1,4 @@
-import { ALL_WEEKS, type WeekFilter } from "@/data/filterSignals";
+import { ALL_WEEKS, type WeekFilter } from "@/lib/filterSignals";
 
 export type MunicipalityOption = {
   key: string;

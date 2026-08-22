@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ALL_WEEKS, filterSignals, firstSignalId } from "../data/filterSignals.ts";
+import { ALL_WEEKS, filterSignals, firstSignalId } from "../lib/filterSignals.ts";
 
 const signals = [
   { id: "new-fukuoka-ai", reportWeek: "2026-08-17", prefecture: "福岡県", municipality: "北九州市", category: "AI" },

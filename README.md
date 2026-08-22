@@ -19,6 +19,8 @@
 
 ChatGPT等で作成した週次レポートを、起動前に `data/YYYY-MM-DD.json` として手動コピーします。管理用indexや設定変更は不要です。追加後に開発サーバーを再起動するか、再ビルドしてください。
 
+`data/` は週次JSON専用です。読み込み・検証・絞り込み・表示用メタデータのTypeScriptコードは `lib/` に置きます。
+
 ```json
 {
   "week": "2026-08-24",
@@ -47,6 +49,7 @@ ChatGPT等で作成した週次レポートを、起動前に `data/YYYY-MM-DD.j
 ## Development
 
 Node.js `>=22.13.0` と npm を使用します。
+このPoCはローカル実行専用で、OpenAI Sitesなどへのデプロイ設定は含みません。
 
 ```bash
 // 脆弱性確認

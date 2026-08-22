@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createSignalArchive, parseWeeklySignalData } from "../data/loadSignalArchive.ts";
+import { createSignalArchive, parseWeeklySignalData } from "../lib/loadSignalArchive.ts";
 
 function signal(overrides = {}) {
   return {

@@ -18,7 +18,8 @@ Implement the PoC as a focused local viewer for manually supplied weekly regiona
 
 - Keep `Signal`, `WeeklySignalData`, and `ArchivedSignal` contracts in `types/signal.ts`.
 - Keep replaceable weekly reports in automatically discovered `data/YYYY-MM-DD.json` files.
-- Keep prefecture layout metadata in `data/prefectures.ts`.
+- Keep archive loading, filtering, and presentation metadata in `lib/`; `data/` contains JSON reports only.
+- Keep prefecture layout metadata in `lib/prefectures.ts`.
 - Keep state coordination and derived filtering in `components/RegionalRadar.tsx`.
 - Keep presentational regions focused: `PrefectureMap`, `CategoryFilter`, `SignalList`, and `SignalDetail` receive only the values and callbacks they need.
 - Keep `app/page.tsx` as a thin composition entry point.

@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex -- A focusable WAI-ARIA separator is an interactive widget. */
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
-import { ALL_WEEKS, filterSignals, firstSignalId, type WeekFilter } from "@/data/filterSignals";
+import { ALL_WEEKS, filterSignals, firstSignalId, type WeekFilter } from "@/lib/filterSignals";
 import type { SignalArchive, SignalCategory } from "@/types/signal";
 import { ArchiveFilter, type MunicipalityOption } from "@/components/ArchiveFilter";
 import { CategoryFilter } from "@/components/CategoryFilter";

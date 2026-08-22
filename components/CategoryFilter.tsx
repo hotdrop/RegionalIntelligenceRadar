@@ -1,5 +1,5 @@
 import { SIGNAL_CATEGORIES, type SignalCategory } from "@/types/signal";
-import { categoryLabels } from "@/data/presentationLabels";
+import { categoryLabels } from "@/lib/presentationLabels";
 
 type CategoryFilterProps = {
   selectedCategory: SignalCategory | null;

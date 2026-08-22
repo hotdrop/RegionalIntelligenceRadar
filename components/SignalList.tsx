@@ -1,5 +1,5 @@
 import type { ArchivedSignal } from "@/types/signal";
-import { categoryLabels, importanceLabels } from "@/data/presentationLabels";
+import { categoryLabels, importanceLabels } from "@/lib/presentationLabels";
 
 type SignalListProps = {
   signals: ArchivedSignal[];

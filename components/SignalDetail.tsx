@@ -1,5 +1,5 @@
 import type { ArchivedSignal } from "@/types/signal";
-import { importanceLabels, topicLabel } from "@/data/presentationLabels";
+import { importanceLabels, topicLabel } from "@/lib/presentationLabels";
 
 export function SignalDetail({ signal }: { signal: ArchivedSignal | null }) {
   if (!signal) {
