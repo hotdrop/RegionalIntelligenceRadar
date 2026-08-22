@@ -10,6 +10,7 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { PrefectureMap } from "@/components/PrefectureMap";
 import { SignalDetail } from "@/components/SignalDetail";
 import { SignalList } from "@/components/SignalList";
+import { SignalTicker } from "@/components/SignalTicker";
 
 function municipalityKey(prefecture: string, municipality: string) {
   return `${prefecture}\t${municipality}`;
@@ -239,6 +240,16 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
           </div>
         </div>
       </header>
+
+      <SignalTicker
+        week={latestReport?.week ?? null}
+        signals={(latestReport?.signals ?? []).map(({ id, prefecture, municipality, title }) => ({
+          id,
+          prefecture,
+          municipality,
+          title,
+        }))}
+      />
 
       <ArchiveFilter
         weeks={archive.reports.map((report) => report.week)}

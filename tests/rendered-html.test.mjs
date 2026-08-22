@@ -23,6 +23,10 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   assert.match(html, /地域インテリジェンス・レーダー/);
   assert.match(html, /LATEST REPORT/);
   assert.match(html, /2026-08-17/);
+  assert.match(html, /最新シグナル/);
+  assert.match(html, /SIGNAL WIRE/);
+  assert.match(html, /生成AIによる行政問い合わせ支援を全庁運用へ移行/);
+  assert.match(html, /aria-label="最新シグナルの自動スクロールを停止"/);
   assert.match(html, /ARCHIVE/);
   assert.match(html, /地域シグナル/);
   assert.match(html, /REPORT WEEK/);
