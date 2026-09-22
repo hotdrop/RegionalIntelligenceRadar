@@ -3,11 +3,11 @@ import { importanceLabels, topicLabel } from "@/lib/presentationLabels";
 
 export function SignalDetail({ signal }: { signal: ArchivedSignal | null }) {
   if (!signal) {
-    return <section className="panel detail-panel empty-detail"><span>シグナルを選択してください</span></section>;
+    return <section tabIndex={-1} aria-label="シグナル詳細" className="panel detail-panel empty-detail"><span>シグナルを選択してください</span></section>;
   }
 
   return (
-    <section className="panel detail-panel" key={signal.id}>
+    <section tabIndex={-1} aria-label="シグナル詳細" className="panel detail-panel" key={signal.id}>
       <div className="detail-top">
         <span className={`importance ${signal.importance.toLowerCase()}`}>{importanceLabels[signal.importance]}</span>
         <span className="detail-location">{signal.prefecture} — {signal.municipality}</span>

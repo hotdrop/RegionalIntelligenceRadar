@@ -12,7 +12,7 @@ Do not add authentication, a database, news APIs, LLM integration, scraping, bac
 - Preserve the Intelligence Console / Operations Center character without turning the page into a game UI.
 - Use a fixed dark theme, restrained cyan accents, thin borders, subtle glow, high but organized information density, and selective monospace typography.
 - Use natural Japanese for user-facing labels, categories, statuses, and signal content. Short product marks and console identifiers such as `RIR` or `MAP_01` may remain in English.
-- Prioritize 1440–1920 px landscape displays. Smaller layouts must remain usable but do not require full smartphone optimization.
+- Support 1440–1920 px landscape displays and mobile layouts down to 360 px. Keep header controls and statistics visible at every width.
 - Keep animation lightweight, subtle, and compatible with `prefers-reduced-motion`.
 
 ## Architecture
@@ -30,11 +30,11 @@ Do not add an API or BFF in this PoC. Weekly JSON is the intentional manual data
 
 ## Interaction invariants
 
-- Week, prefecture, municipality, and category filters combine with AND semantics.
-- Selecting the active prefecture/category again clears it.
+- Show all weeks, municipalities, and categories; prefecture is the only filter.
+- Selecting the active prefecture again clears it.
 - Detail selection always points to a signal in the visible list.
 - Changing a filter selects the first matching signal; zero matches show an empty list and no stale detail.
-- `すべて解除` returns to Latest, clears all other filters, and restores the default signal.
+- `地域選択を解除` beside zoom controls clears the prefecture and selects the first archived signal without changing map zoom or pan.
 - Clickable controls remain keyboard accessible and expose accessible names or selected state.
 
 ## Data rules
@@ -43,7 +43,7 @@ Weekly reports live in automatically discovered `data/YYYY-MM-DD.json` files and
 
 ## Verification
 
-Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, exercise Latest, past weeks, All, prefecture, municipality, category, their combined state, detail selection, empty results, and full reset.
+Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, exercise all-period display, prefecture select/clear, detail selection, empty results, mobile layout presets and detail navigation, and desktop resizing.
 
 Report verification honestly by layer: build/lint, automated tests, then browser/manual checks. A successful build is not visual confirmation.
 

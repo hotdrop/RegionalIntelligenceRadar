@@ -184,6 +184,7 @@ export function PrefectureMap({ signals, selectedPrefecture, focusedPrefecture, 
       <div className="panel-heading">
         <h2>日本シグナルマップ</h2>
         <div className="map-heading-actions">
+        <button type="button" className="text-action" onClick={() => onSelectPrefecture(null)} disabled={!selectedPrefecture}>地域選択を解除</button>
           <div className="map-zoom-controls" role="group" aria-label="地図の表示倍率">
             <button type="button" aria-label="地図を縮小" onClick={() => updateZoom(zoom - ZOOM_STEP)} disabled={zoom <= MIN_ZOOM}>−</button>
             <button type="button" className="map-zoom-reset" aria-label={`地図表示を100%にリセット。現在${zoomPercent}%`} onClick={resetViewport}>{zoomPercent}%</button>
@@ -277,7 +278,6 @@ export function PrefectureMap({ signals, selectedPrefecture, focusedPrefecture, 
       </div>
       <div className="map-legend">
         <span><i className="legend-dot critical" /> 最重要</span><span><i className="legend-dot high" /> 高</span><span><i className="legend-dot medium" /> 中</span>
-        <button type="button" className="text-action" onClick={() => onSelectPrefecture(null)} disabled={!selectedPrefecture}>地域選択を解除</button>
       </div>
     </section>
   );
