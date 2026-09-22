@@ -1,23 +1,9 @@
-import type { ArchivedSignal, SignalCategory } from "@/types/signal";
+import type { ArchivedSignal } from "@/types/signal";
 
-export const ALL_WEEKS = "ALL" as const;
-export type WeekFilter = string | typeof ALL_WEEKS;
-
-export type SignalFilters = {
-  week: WeekFilter;
-  prefecture: string | null;
-  municipality: string | null;
-  category: SignalCategory | null;
-};
+export type SignalFilters = { prefecture: string | null };
 
 export function filterSignals(signals: ArchivedSignal[], filters: SignalFilters) {
-  return signals.filter(
-    (signal) =>
-      (filters.week === ALL_WEEKS || signal.reportWeek === filters.week) &&
-      (!filters.prefecture || signal.prefecture === filters.prefecture) &&
-      (!filters.municipality || signal.municipality === filters.municipality) &&
-      (!filters.category || signal.category === filters.category),
-  );
+  return signals.filter((signal) => !filters.prefecture || signal.prefecture === filters.prefecture);
 }
 
 export function firstSignalId(signals: ArchivedSignal[], filters: SignalFilters) {

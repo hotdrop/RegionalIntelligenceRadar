@@ -21,7 +21,7 @@ export function SignalList({ signals, totalSignals, selectedSignalId, onSelectSi
       </div>
       <div className="signal-list" aria-live="polite">
         {signals.map((signal, index) => (
-          <button key={signal.id} type="button" className={`signal-row ${selectedSignalId === signal.id ? "selected" : ""}`} onClick={() => onSelectSignal(signal.id)}>
+          <button key={signal.id} type="button" className={`signal-row ${selectedSignalId === signal.id ? "selected" : ""}`} aria-pressed={selectedSignalId === signal.id} onClick={() => onSelectSignal(signal.id)}>
             <span className="signal-index">{String(index + 1).padStart(2, "0")}</span>
             <span className="signal-copy">
               <span className="signal-meta">{signal.prefecture} / {signal.municipality} · {categoryLabels[signal.category]}</span>
@@ -31,7 +31,7 @@ export function SignalList({ signals, totalSignals, selectedSignalId, onSelectSi
             <span className="signal-tail"><span className={`importance ${signal.importance.toLowerCase()}`}>{importanceLabels[signal.importance]}</span><time>{formatDate(signal.publishedAt)}</time></span>
           </button>
         ))}
-        {signals.length === 0 && <div className="empty-state"><span>該当するシグナルはありません</span><p>絞り込み条件を変更してください。</p></div>}
+        {signals.length === 0 && <div className="empty-state"><span>該当するシグナルはありません</span><p>別の都道府県を選ぶか、地域選択を解除してください。</p></div>}
       </div>
     </section>
   );

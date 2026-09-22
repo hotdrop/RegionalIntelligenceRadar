@@ -1,48 +1,26 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ALL_WEEKS, filterSignals, firstSignalId } from "../lib/filterSignals.ts";
+import { filterSignals, firstSignalId } from "../lib/filterSignals.ts";
 
 const signals = [
   { id: "new-fukuoka-ai", reportWeek: "2026-08-17", prefecture: "福岡県", municipality: "北九州市", category: "AI" },
   { id: "new-nagano-health", reportWeek: "2026-08-17", prefecture: "長野県", municipality: "松本市", category: "Healthcare" },
-  { id: "old-fukuoka-gov", reportWeek: "2026-08-10", prefecture: "福岡県", municipality: "北九州市", category: "GovTech" },
+  { id: "old-fukuoka-gov", reportWeek: "2026-08-10", prefecture: "福岡県", municipality: "福岡市", category: "GovTech" },
 ];
 
-const emptyDimensions = { prefecture: null, municipality: null, category: null };
-
-test("week filters support latest, past weeks, and all", () => {
-  assert.deepEqual(
-    filterSignals(signals, { week: "2026-08-17", ...emptyDimensions }).map((signal) => signal.id),
-    ["new-fukuoka-ai", "new-nagano-health"],
-  );
-  assert.deepEqual(
-    filterSignals(signals, { week: "2026-08-10", ...emptyDimensions }).map((signal) => signal.id),
-    ["old-fukuoka-gov"],
-  );
-  assert.equal(filterSignals(signals, { week: ALL_WEEKS, ...emptyDimensions }).length, 3);
+test("default and reset include all weeks, municipalities and categories in archive order", () => {
+  assert.deepEqual(filterSignals(signals, { prefecture: null }), signals);
+  assert.equal(firstSignalId(signals, { prefecture: null }), "new-fukuoka-ai");
 });
 
-test("week, prefecture, municipality, and category filters use AND semantics", () => {
-  const matching = filterSignals(signals, {
-    week: ALL_WEEKS,
-    prefecture: "福岡県",
-    municipality: "北九州市",
-    category: "GovTech",
-  });
-  assert.deepEqual(matching.map((signal) => signal.id), ["old-fukuoka-gov"]);
-
-  const empty = filterSignals(signals, {
-    week: "2026-08-17",
-    prefecture: "福岡県",
-    municipality: "北九州市",
-    category: "Healthcare",
-  });
-  assert.deepEqual(empty, []);
+test("prefecture selection includes old reports and different municipalities and categories", () => {
+  assert.deepEqual(filterSignals(signals, { prefecture: "福岡県" }).map(s => s.id),
+    ["new-fukuoka-ai", "old-fukuoka-gov"]);
+  assert.equal(firstSignalId(signals, { prefecture: "長野県" }), "new-nagano-health");
 });
 
-test("firstSignalId follows the visible list and clears on empty results", () => {
-  assert.equal(firstSignalId(signals, { week: "2026-08-17", ...emptyDimensions }), "new-fukuoka-ai");
-  assert.equal(firstSignalId(signals, {
-    week: "2026-08-10", prefecture: "長野県", municipality: null, category: null,
-  }), null);
+test("no matches and empty archive have no selected detail", () => {
+  assert.deepEqual(filterSignals(signals, { prefecture: "東京都" }), []);
+  assert.equal(firstSignalId(signals, { prefecture: "東京都" }), null);
+  assert.equal(firstSignalId([], { prefecture: null }), null);
 });
