@@ -65,4 +65,4 @@ npm run dev
 npm run build
 ```
 
-現行要件は `docs/design_v02.md`、旧UI要件は `docs/design_v01.md`、実装規約は `AGENTS.md`、Codex向けワークフローは `.agents/skills/regional-intelligence-radar/SKILL.md` を参照してください。
+現行要件は `docs/design_v02.md`、実装規約は `AGENTS.md`、Codex向けワークフローは `.agents/skills/regional-intelligence-radar/SKILL.md` を参照してください。
