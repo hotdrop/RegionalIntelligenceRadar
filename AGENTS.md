@@ -43,7 +43,7 @@ Weekly reports live in automatically discovered `data/YYYY-MM-DD.json` files and
 
 ## Verification
 
-Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, exercise all-period display, prefecture select/clear, detail selection, empty results, mobile layout presets and detail navigation, and desktop resizing.
+Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, exercise all-period display, prefecture select/clear, detail selection, empty results, mobile scrolling and detail navigation, and desktop resizing.
 
 Report verification honestly by layer: build/lint, automated tests, then browser/manual checks. A successful build is not visual confirmation.
 

@@ -2,14 +2,13 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex -- A focusable WAI-ARIA separator is an interactive widget. */
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import { filterSignals, firstSignalId } from "@/lib/filterSignals";
 import type { SignalArchive } from "@/types/signal";
 import { PrefectureMap } from "@/components/PrefectureMap";
 import { SignalDetail } from "@/components/SignalDetail";
 import { SignalList } from "@/components/SignalList";
 
-type LayoutMode = "explore" | "balanced" | "detail" | "custom";
 type ResizeAxis = "horizontal" | "vertical";
 
 type LayoutSizing = {
@@ -31,41 +30,17 @@ const MAX_LIST_SHARE = 70;
 const KEYBOARD_STEP = 2;
 const KEYBOARD_LARGE_STEP = 5;
 
-const layoutPresets: Record<Exclude<LayoutMode, "custom">, LayoutSizing> = {
-  explore: { mapShare: 55, listShare: 70 },
-  balanced: { mapShare: 50, listShare: 50 },
-  detail: { mapShare: 35, listShare: 30 },
-};
-
-const layoutLabels: Record<Exclude<LayoutMode, "custom">, string> = {
-  explore: "探索",
-  balanced: "均等",
-  detail: "詳細",
-};
-
 function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(maximum, Math.max(minimum, value));
 }
 
-function subscribeMobileLayout(onChange: () => void) {
-  const query = window.matchMedia("(max-width: 950px)");
-  query.addEventListener("change", onChange);
-  return () => query.removeEventListener("change", onChange);
-}
-
 export function RegionalRadar({ archive }: { archive: SignalArchive }) {
-  const isMobile = useSyncExternalStore(
-    subscribeMobileLayout,
-    () => window.matchMedia("(max-width: 950px)").matches,
-    () => false,
-  );
   const workspaceRef = useRef<HTMLElement>(null);
   const rightColumnRef = useRef<HTMLElement>(null);
   const dragSession = useRef<DragSession | null>(null);
   const resizeCleanup = useRef<(() => void) | null>(null);
   const [selectedPrefecture, setSelectedPrefecture] = useState<string | null>(null);
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>("explore");
-  const [layoutSizing, setLayoutSizing] = useState<LayoutSizing>(layoutPresets.explore);
+  const [layoutSizing, setLayoutSizing] = useState<LayoutSizing>({ mapShare: 55, listShare: 70 });
   const [resizingAxis, setResizingAxis] = useState<ResizeAxis | null>(null);
   const [selectedSignalId, setSelectedSignalId] = useState<string | null>(() =>
     firstSignalId(archive.allSignals, { prefecture: null }),
@@ -73,7 +48,6 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
 
   useEffect(() => () => resizeCleanup.current?.(), []);
 
-  const [mobileLayout, setMobileLayout] = useState<Exclude<LayoutMode, "custom">>("explore");
   const filters = useMemo(() => ({ prefecture: selectedPrefecture }), [selectedPrefecture]);
 
   const filteredSignals = useMemo(
@@ -102,14 +76,7 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
     }
   }
 
-  function chooseLayout(mode: Exclude<LayoutMode, "custom">) {
-    setMobileLayout(mode);
-    setLayoutMode(mode);
-    setLayoutSizing(layoutPresets[mode]);
-  }
-
   function updateShare(axis: ResizeAxis, nextShare: number) {
-    setLayoutMode("custom");
     setLayoutSizing((current) => axis === "horizontal"
       ? { ...current, mapShare: clamp(nextShare, MIN_SHARE, MAX_SHARE) }
       : { ...current, listShare: clamp(nextShare, MIN_LIST_SHARE, MAX_LIST_SHARE) });
@@ -173,23 +140,10 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
   }
 
   return (
-    <main className="console-shell" data-resizing={resizingAxis ?? "false"} data-mobile-layout={mobileLayout}>
+    <main className="console-shell" data-resizing={resizingAxis ?? "false"}>
       <header className="topbar">
         <div className="brand-lockup"><span className="brand-mark">RIR</span><h1>地域インテリジェンス・レーダー</h1></div>
         <div className="topbar-tools">
-          <div className="layout-presets" role="group" aria-label="表示配分">
-            <span>表示配分</span>
-            {(Object.keys(layoutLabels) as Array<Exclude<LayoutMode, "custom">>).map((mode) => (
-              <button
-                key={mode}
-                type="button"
-                aria-pressed={(isMobile ? mobileLayout : layoutMode) === mode}
-                onClick={() => chooseLayout(mode)}
-              >
-                {layoutLabels[mode]}
-              </button>
-            ))}
-          </div>
           <div className="system-stats">
             <span><b>LATEST REPORT</b>{latestReport?.week ?? "—"}</span>
             <span><b>SIGNALS</b>{archive.allSignals.length}</span>

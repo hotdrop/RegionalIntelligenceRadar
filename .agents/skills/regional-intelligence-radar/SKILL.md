@@ -39,7 +39,7 @@ Implement the PoC as a focused local viewer for manually supplied weekly regiona
 
 - Use a fixed dark palette, thin cyan-tinted borders, subtle grid structure, restrained glow, and monospace labels.
 - Optimize the primary composition for 1440–1920 px landscape displays.
-- At 950px and below, stack map/list/detail, keep header controls and statistics visible, and provide mobile layout presets (480/480, 400/400, 320/280px map/list heights). Detail uses natural height; selecting a list item navigates to its detail, respecting reduced motion.
+- At 950px and below, stack map/list/detail, keep header statistics visible, and use fixed 480px map/list heights without layout preset controls. Detail uses natural height; selecting a list item navigates to its detail, respecting reduced motion.
 - Keep animation finite or subtle; honor `prefers-reduced-motion` and avoid continuously moving backgrounds.
 - Favor information hierarchy and legibility over decorative cyber effects.
 - Use natural Japanese for user-facing console labels and signal content. Keep only short product marks or identifiers such as `RIR` and `MAP_01` in English when they support the console character.
@@ -54,5 +54,5 @@ Do not add APIs, databases, automatic collection or synchronization, upload UI, 
 
 1. Run `npm run build` for type, route, and deployment-output validation.
 2. Run `npm run lint` when component or interaction code changes.
-3. For interaction changes, confirm all-period display, prefecture select/clear, detail selection, empty results, mobile presets and detail navigation, and desktop resizing.
+3. For interaction changes, confirm all-period display, prefecture select/clear, detail selection, empty results, mobile scrolling and detail navigation, and desktop resizing.
 4. Report browser/device checks separately from build and lint; do not claim visual confirmation if it was not performed.

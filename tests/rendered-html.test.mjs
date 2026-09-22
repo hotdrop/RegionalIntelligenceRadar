@@ -39,8 +39,7 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   assert.match(html, /REPORT WEEK/);
   assert.match(html, /PUBLISHED AT/);
   assert.match(html, /日本シグナルマップ/);
-  assert.match(html, /aria-label="表示配分"/);
-  assert.match(html, /aria-pressed="true"[^>]*>探索</);
+  assert.doesNotMatch(html, /表示配分|layout-presets/);
   assert.match(html, /aria-label="マップとシグナル領域の幅を変更"[^>]*aria-valuenow="55"/);
   assert.match(html, /aria-label="シグナル一覧と詳細の高さを変更"[^>]*aria-valuenow="70"/);
   assert.match(html, /class="map-signal-marker critical focused"[^>]*data-prefecture="福岡県"/);

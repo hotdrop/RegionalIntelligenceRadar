@@ -39,11 +39,6 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 1px solid
 .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid rgba(83, 216, 255, .55); color: var(--cyan); font: 700 13px var(--font-geist-mono), monospace; letter-spacing: .14em; box-shadow: inset 0 0 16px rgba(83, 216, 255, .12); }
 h1 { font: 600 19px var(--font-geist-mono), monospace; letter-spacing: .14em; margin: 0; }
 .topbar-tools { display: flex; align-items: center; gap: 26px; }
-.layout-presets { display: flex; align-items: center; border: 1px solid rgba(94, 176, 207, .2); background: rgba(5, 12, 18, .72); }
-.layout-presets > span { padding: 0 9px; color: #4f6a76; font: 9px var(--font-geist-mono), monospace; letter-spacing: .12em; white-space: nowrap; }
-.layout-presets button { height: 29px; padding: 0 9px; border: 0; border-left: 1px solid rgba(94, 176, 207, .14); color: #67828e; background: transparent; cursor: pointer; font: 10px var(--font-geist-mono), monospace; transition: color .16s ease, background .16s ease, box-shadow .16s ease; }
-.layout-presets button:hover { color: #b1c8d1; background: rgba(83, 216, 255, .05); }
-.layout-presets button[aria-pressed="true"] { color: var(--cyan); background: rgba(83, 216, 255, .1); box-shadow: inset 0 -1px var(--cyan); }
 .system-stats { display: flex; gap: 28px; font: 12px var(--font-geist-mono), monospace; letter-spacing: .08em; color: #9bb0b9; }.system-stats span { display: grid; gap: 5px; white-space: nowrap; }.system-stats b { color: #54717d; font-size: 9px; font-weight: 500; letter-spacing: .15em; }
 
 .workspace { height: calc(100vh - 126px); min-height: 660px; margin-top: 12px; display: flex; min-width: 0; }
@@ -133,12 +128,8 @@ h2 { margin: 0; font: 600 14px var(--font-geist-mono), monospace; letter-spacing
 .brand-mark { flex-shrink: 0; }
 @media (max-width: 950px) {
   .console-shell { padding: 12px; --mobile-map-height: 480px; --mobile-list-height: 480px; }
-  .console-shell[data-mobile-layout="balanced"] { --mobile-map-height: 400px; --mobile-list-height: 400px; }
-  .console-shell[data-mobile-layout="detail"] { --mobile-map-height: 320px; --mobile-list-height: 280px; }
   .topbar { align-items: stretch; flex-direction: column; padding: 14px; }
   .topbar-tools { display: flex; justify-content: space-between; gap: 14px; }
-  .layout-presets > span { color: #8aa6b1; font-size: 11px; }
-  .layout-presets button { min-width: 48px; height: 44px; font-size: 12px; }
   .system-stats { display: flex; gap: 28px; font-size: 13px; }
   .system-stats b { color: #8aa6b1; font-size: 10px; }
   .workspace-resizer { display: none; }
