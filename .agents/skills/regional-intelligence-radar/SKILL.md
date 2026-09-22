@@ -5,54 +5,36 @@ description: Build and evolve the Regional Intelligence Radar web app from docs/
 
 # Regional Intelligence Radar
 
-Implement the PoC as a focused local viewer for manually supplied weekly regional-policy Signal reports. Preserve the console character while keeping weekly JSON replacement simple.
+Use the root `AGENTS.md` for shared product, architecture, data, interaction, and verification rules. This skill supplies the screen-specific workflow; explicit user instructions take precedence over its defaults.
 
-## Start with the source of truth
+## Establish the affected behavior
 
-1. Read `docs/design_v02.md` completely and consult `docs/design_v01.md` only for the original visual direction.
-2. Read the root `AGENTS.md` and inspect the current page before editing.
-3. Treat bundled sample content as plausible fictional examples. Do not present it as verified news.
-4. Confirm that the requested change belongs to v0.1. Do not add authentication, databases, news APIs, LLM integration, or background collection unless the user explicitly expands scope.
+Read `docs/design_v02.md` for feature, UI, or architecture changes and inspect the affected code before editing. For visual changes, inspect the current page when browser access is available; otherwise report the visual verification gap. Documentation-only work does not require opening the app.
 
-## Preserve responsibility boundaries
+Apply the current local-viewer scope unless the user explicitly expands it. Resolve routine implementation details from the design and existing code without introducing an approval step. Treat bundled sample content as fictional, not verified news.
 
-- Keep `Signal`, `WeeklySignalData`, and `ArchivedSignal` contracts in `types/signal.ts`.
-- Keep replaceable weekly reports in automatically discovered `data/YYYY-MM-DD.json` files.
-- Keep archive loading, filtering, and presentation metadata in `lib/`; `data/` contains JSON reports only.
-- Keep prefecture layout metadata in `lib/prefectures.ts`.
-- Keep state coordination and derived filtering in `components/RegionalRadar.tsx`.
-- Keep presentational regions focused: `PrefectureMap`, `CategoryFilter`, `SignalList`, and `SignalDetail` receive only the values and callbacks they need.
-- Keep `app/page.tsx` as a thin composition entry point.
-- Prefer these direct boundaries over repositories, use cases, or a generic design system while the app remains a prototype.
+## Make a focused change
 
-## Maintain the interaction contract
+- Keep `app/page.tsx` as the server composition entry point and page-level state in `components/RegionalRadar.tsx`.
+- Keep `Signal`, `WeeklySignalData`, and `ArchivedSignal` contracts in `types/signal.ts`; loading, filtering, labels, and prefecture layout metadata belong in `lib/`.
+- Use the existing `PrefectureMap`, `SignalList`, and `SignalDetail` regions. Pass needed values and callbacks; do not introduce category controls when prefecture is the only filter.
+- Preserve the manual weekly JSON boundary. For report changes, check filename/week agreement, globally unique IDs, supported values, dates, and source URLs through the existing archive validation. Keep `whyItMatters` and `opportunity` distinct.
+- Map counts and header totals use the full archive. Selecting a prefecture changes the visible list and detail, not the header totals. Clearing it preserves map zoom and pan.
 
-- Selecting a prefecture filters the list and updates the detail to the first matching signal.
-- Selecting the same prefecture again clears that filter.
-- Display every week, municipality, and category; prefecture is the only filter.
-- `地域選択を解除` beside map zoom controls restores all signals and the first detail, preserving zoom and pan.
-- The selected detail must always belong to the visible filtered list.
-- An empty result must render an intentional empty state without stale detail content.
-- All controls must be keyboard reachable and expose selected state where applicable.
+## Implement responsive behavior
 
-## Maintain the visual language
+Preserve the visual language defined in `AGENTS.md` and the following layout behavior:
 
-- Use a fixed dark palette, thin cyan-tinted borders, subtle grid structure, restrained glow, and monospace labels.
-- Optimize the primary composition for 1440–1920 px landscape displays.
-- At 950px and below, stack map/list/detail, keep header statistics visible, and use fixed 480px map/list heights without layout preset controls. Detail uses natural height; selecting a list item navigates to its detail, respecting reduced motion.
-- Keep animation finite or subtle; honor `prefers-reduced-motion` and avoid continuously moving backgrounds.
-- Favor information hierarchy and legibility over decorative cyber effects.
-- Use natural Japanese for user-facing console labels and signal content. Keep only short product marks or identifiers such as `RIR` and `MAP_01` in English when they support the console character.
+- At 950px and below, stack map/list/detail and keep header statistics visible. Map and list each have a fixed 480px height; detail uses natural page height. Do not add layout preset controls.
+- Selecting a list item on mobile moves focus and view to the detail heading. Honor `prefers-reduced-motion` with immediate movement.
+- On narrow screens, allow map heading and controls to occupy two rows and keep primary control targets at least 44px.
+- Desktop starts with 55% width for the map and 70% of the right region's height for the list. Resizing works with both dragging and keyboard controls.
+- User-facing category labels are Japanese; preserve supported enum values in the data contract and use presentation labels for display.
 
-## Extend data safely
+## Verify the result
 
-Add reports as `data/YYYY-MM-DD.json`. Match the filename to `week`, use globally unique stable IDs, ISO dates, supported categories/importances, a short summary, distinct `whyItMatters` and `opportunity` analysis, related topics, and a clearly non-production source URL when fictional.
+Follow the change-specific commands in `AGENTS.md`. For affected interactions, check full-archive display, prefecture selection and repeat-selection clearing, explicit clearing without zoom/pan changes, first matching detail, and an empty result without stale detail.
 
-Do not add APIs, databases, automatic collection or synchronization, upload UI, or browser filesystem access. JSON files are loaded and validated on the server boundary before reaching UI components.
+For layout or navigation changes, check 360px mobile and 1440–1920px desktop widths, header visibility, list scrolling, detail focus/navigation, and desktop resizing. Verify keyboard operation and reduced-motion behavior for affected controls.
 
-## Validate proportionally
-
-1. Run `npm run build` for type, route, and deployment-output validation.
-2. Run `npm run lint` when component or interaction code changes.
-3. For interaction changes, confirm all-period display, prefecture select/clear, detail selection, empty results, mobile scrolling and detail navigation, and desktop resizing.
-4. Report browser/device checks separately from build and lint; do not claim visual confirmation if it was not performed.
+Report the outcome, relevant checks and failures, and any unverified browser behavior. A build or rendered-HTML test does not establish visual correctness. After the relevant checks pass, finish without expanding into unrelated refactoring or repeated verification.

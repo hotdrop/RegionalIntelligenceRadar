@@ -2,9 +2,17 @@
 
 ## Product source of truth
 
-Read `docs/design_v02.md` before feature, UI, or architecture work, and use `docs/design_v01.md` only as the original visual-design background. The current product is a local-only PoC: a one-screen viewer for manually supplied weekly regional-policy Signal reports. Its primary success criterion is whether useful Signals can be discovered continuously and reviewed clearly in meetings.
+Read `docs/design_v02.md` before feature, UI, or architecture work. The current product is a local-only PoC: a one-screen viewer for manually supplied weekly regional-policy Signal reports. Its primary success criterion is whether useful Signals can be discovered continuously and reviewed clearly in meetings.
 
 Do not add authentication, a database, news APIs, LLM integration, scraping, background collection, or production operations unless the user explicitly expands the scope.
+
+## Applying these instructions
+
+Explicit user instructions govern the requested scope; these project rules provide defaults within that scope. Treat an explicit scope expansion as authorization for the requested work, without asking for the same approval again. It does not authorize unrelated features or external actions.
+
+Use `docs/design_v02.md` for product behavior, this file for shared project constraints, and the project skill for implementation workflow. Verify implementation details against current code and `package.json`. If instructions conflict, resolve stale references from this order; ask a focused question only when the answer would materially change the requested behavior. Continue independent work while awaiting an answer.
+
+For ordinary implementation choices within the request, use judgment and proceed through verification. Keep edits focused and preserve unrelated user changes. Planning or review requests produce plans or findings rather than unrequested implementation.
 
 ## Product principles
 
@@ -17,7 +25,7 @@ Do not add authentication, a database, news APIs, LLM integration, scraping, bac
 
 ## Architecture
 
-- `app/`: Next.js App Router entry points, metadata, and global styles.
+- `app/`: App Router entry points, metadata, and global styles, run through vinext/Vite.
 - `components/`: focused UI regions and the client-side coordinator.
 - `types/`: stable UI-facing domain contracts.
 - `data/`: manually supplied weekly `YYYY-MM-DD.json` reports only.
@@ -32,7 +40,7 @@ Do not add an API or BFF in this PoC. Weekly JSON is the intentional manual data
 
 - Show all weeks, municipalities, and categories; prefecture is the only filter.
 - Selecting the active prefecture again clears it.
-- Detail selection always points to a signal in the visible list.
+- When the visible list is nonempty, detail selection points to a signal in that list; otherwise there is no selected detail.
 - Changing a filter selects the first matching signal; zero matches show an empty list and no stale detail.
 - `地域選択を解除` beside zoom controls clears the prefecture and selects the first archived signal without changing map zoom or pan.
 - Clickable controls remain keyboard accessible and expose accessible names or selected state.
@@ -43,7 +51,9 @@ Weekly reports live in automatically discovered `data/YYYY-MM-DD.json` files and
 
 ## Verification
 
-Run `npm run build` after implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, exercise all-period display, prefecture select/clear, detail selection, empty results, mobile scrolling and detail navigation, and desktop resizing.
+Run `npm run build` after application implementation. Run `npm run lint` for component or interaction changes. For archive/filter changes, run `npm test` and exercise all-period display, prefecture select/clear, detail selection, empty results, mobile scrolling and detail navigation, and desktop resizing. `npm test` currently includes the build, so a successful run satisfies that build check without repeating it.
+
+For documentation or instruction-only changes, check consistency, referenced paths, and the diff; application builds and browser checks are unnecessary. Add tests for changed behavior or regressions when useful, rather than tests that merely match implementation text. Once relevant checks pass, repeat them only for further changes or unresolved failures.
 
 Report verification honestly by layer: build/lint, automated tests, then browser/manual checks. A successful build is not visual confirmation.
 
