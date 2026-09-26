@@ -3,10 +3,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex -- A focusable WAI-ARIA separator is an interactive widget. */
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
-import { filterSignals, firstSignalId } from "@/lib/filterSignals";
+import { defaultFilters, filterSignals, firstSignalId, type SignalFilters } from "@/lib/filterSignals";
 import type { SignalArchive } from "@/types/signal";
 import { PrefectureMap } from "@/components/PrefectureMap";
 import { SignalDetail } from "@/components/SignalDetail";
+import { SignalSearch } from "@/components/SignalSearch";
 import { SignalList } from "@/components/SignalList";
 
 type ResizeAxis = "horizontal" | "vertical";
@@ -39,7 +40,9 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
   const rightColumnRef = useRef<HTMLElement>(null);
   const dragSession = useRef<DragSession | null>(null);
   const resizeCleanup = useRef<(() => void) | null>(null);
-  const [selectedPrefecture, setSelectedPrefecture] = useState<string | null>(null);
+  const [filters, setFilters] = useState<SignalFilters>(defaultFilters);
+  const [queryInput, setQueryInput] = useState("");
+  const [filterRevision, setFilterRevision] = useState(0);
   const [layoutSizing, setLayoutSizing] = useState<LayoutSizing>({ mapShare: 55, listShare: 70 });
   const [resizingAxis, setResizingAxis] = useState<ResizeAxis | null>(null);
   const [selectedSignalId, setSelectedSignalId] = useState<string | null>(() =>
@@ -48,8 +51,6 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
 
   useEffect(() => () => resizeCleanup.current?.(), []);
 
-  const filters = useMemo(() => ({ prefecture: selectedPrefecture }), [selectedPrefecture]);
-
   const filteredSignals = useMemo(
     () => filterSignals(archive.allSignals, filters),
     [archive.allSignals, filters],
@@ -57,9 +58,14 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
   const selectedSignal = filteredSignals.find((signal) => signal.id === selectedSignalId) ?? filteredSignals[0] ?? null;
   const latestReport = archive.reports[0] ?? null;
 
+  function changeFilters(next: SignalFilters) {
+    setFilters(next);
+    setSelectedSignalId(firstSignalId(archive.allSignals, next));
+    setFilterRevision(current => current + 1);
+  }
+
   function choosePrefecture(prefecture: string | null) {
-    setSelectedPrefecture(prefecture);
-    setSelectedSignalId(firstSignalId(archive.allSignals, { prefecture }));
+    changeFilters({ ...filters, prefecture });
   }
 
   function chooseSignal(id: string) {
@@ -161,7 +167,7 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
       >
         <PrefectureMap
           signals={archive.allSignals}
-          selectedPrefecture={selectedPrefecture}
+          selectedPrefecture={filters.prefecture}
           focusedPrefecture={selectedSignal?.prefecture ?? null}
           onSelectPrefecture={choosePrefecture}
         />
@@ -180,7 +186,9 @@ export function RegionalRadar({ archive }: { archive: SignalArchive }) {
           onKeyDown={(event) => handleSeparatorKeyDown("horizontal", event)}
         />
         <section className="right-column" ref={rightColumnRef}>
-          <SignalList signals={filteredSignals} totalSignals={archive.allSignals.length} selectedSignalId={selectedSignal?.id ?? null} onSelectSignal={chooseSignal} />
+          <SignalList signals={filteredSignals} totalSignals={archive.allSignals.length} selectedSignalId={selectedSignal?.id ?? null} onSelectSignal={chooseSignal} query={filters.query ?? ""} filterRevision={filterRevision}>
+            <SignalSearch filters={filters} queryInput={queryInput} onQueryInput={setQueryInput} onChange={changeFilters} />
+          </SignalList>
           <div
             className="workspace-resizer vertical-resizer"
             role="separator"

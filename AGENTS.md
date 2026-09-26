@@ -2,7 +2,7 @@
 
 ## Product source of truth
 
-Read `docs/design_v02.md` before feature, UI, or architecture work. The current product is a local-only PoC: a one-screen viewer for manually supplied weekly regional-policy Signal reports. Its primary success criterion is whether useful Signals can be discovered continuously and reviewed clearly in meetings.
+Read `docs/design_v03.md` before feature, UI, or architecture work. The product presents manually supplied weekly regional-policy Signal reports. Its primary success criterion is whether members can understand and retrieve useful archived information quickly in meetings and conversations.
 
 Do not add authentication, a database, news APIs, LLM integration, scraping, background collection, or production operations unless the user explicitly expands the scope.
 
@@ -10,13 +10,13 @@ Do not add authentication, a database, news APIs, LLM integration, scraping, bac
 
 Explicit user instructions govern the requested scope; these project rules provide defaults within that scope. Treat an explicit scope expansion as authorization for the requested work, without asking for the same approval again. It does not authorize unrelated features or external actions.
 
-Use `docs/design_v02.md` for product behavior, this file for shared project constraints, and the project skill for implementation workflow. Verify implementation details against current code and `package.json`. If instructions conflict, resolve stale references from this order; ask a focused question only when the answer would materially change the requested behavior. Continue independent work while awaiting an answer.
+Use `docs/design_v03.md` for product behavior, this file for shared project constraints, and the project skill for implementation workflow. Verify implementation details against current code and `package.json`. If instructions conflict, resolve stale references from this order; ask a focused question only when the answer would materially change the requested behavior. Continue independent work while awaiting an answer.
 
 For ordinary implementation choices within the request, use judgment and proceed through verification. Keep edits focused and preserve unrelated user changes. Planning or review requests produce plans or findings rather than unrequested implementation.
 
 ## Product principles
 
-- Present regional information as `Signal → Opportunity`, not as a generic news list.
+- Prioritize clear regional information and discovery; distinguish facts, reasons for attention, and opportunities without making opportunity creation the product goal.
 - Preserve the Intelligence Console / Operations Center character without turning the page into a game UI.
 - Use a fixed dark theme, restrained cyan accents, thin borders, subtle glow, high but organized information density, and selective monospace typography.
 - Use natural Japanese for user-facing labels, categories, statuses, and signal content. Short product marks and console identifiers such as `RIR` or `MAP_01` may remain in English.
@@ -34,15 +34,18 @@ For ordinary implementation choices within the request, use judgment and proceed
 
 Keep `app/page.tsx` thin: it loads the validated archive on the server and passes it into `components/RegionalRadar.tsx`. `RegionalRadar` owns page-level selection/filter state and derives the visible signals. Presentational components receive only needed values and callbacks. UI components may depend on `ArchivedSignal`, but must not import weekly JSON or the loader directly. Do not introduce Clean Architecture layers or repositories.
 
-Do not add an API or BFF in this PoC. Weekly JSON is the intentional manual data boundary.
+Do not add an API or BFF for archive search. Weekly JSON is the intentional manual data boundary.
 
 ## Interaction invariants
 
-- Show all weeks, municipalities, and categories; prefecture is the only filter.
+- Default to all weeks, municipalities, and categories. Combine keyword AND search with map prefecture selection. Do not add category filters.
+- Keyword search is the only search input. Do not add municipality selectors, date ranges, advanced conditions, or sort controls. Results always use descending report-week order with archive-order ties.
+- Search title, summary, municipality, topic values/Japanese labels, and reasons for attention with NFKC/case normalization. Preserve original text in highlights and excerpts.
 - Selecting the active prefecture again clears it.
 - When the visible list is nonempty, detail selection points to a signal in that list; otherwise there is no selected detail.
 - Changing a filter selects the first matching signal; zero matches show an empty list and no stale detail.
-- `地域選択を解除` beside zoom controls clears the prefecture and selects the first archived signal without changing map zoom or pan.
+- `地域選択を解除` beside zoom controls clears only the prefecture and selects the first remaining match without changing map zoom or pan.
+- Clearing all conditions clears the keyword and map prefecture. Filter changes reset result scrolling and select the first match without navigating to detail. Defer keyword filtering during IME composition.
 - Clickable controls remain keyboard accessible and expose accessible names or selected state.
 
 ## Data rules

@@ -26,8 +26,11 @@ test("server-renders the Regional Intelligence Radar shell", async () => {
   assert.match(html, /2026-08-17/);
   assert.match(html, /生成AIによる行政問い合わせ支援を全庁運用へ移行/);
   assert.match(html, /ARCHIVE/);
-  assert.doesNotMatch(html, /SIGNAL WIRE|最新シグナル|すべて解除|すべての自治体|class="archive-filter"|class="filter-strip"/);
+  assert.doesNotMatch(html, /SIGNAL WIRE|最新シグナル/);
   assert.match(html, /地域選択を解除/);
+  assert.match(html, /キーワード検索/);
+  assert.doesNotMatch(html, /詳細条件|期間・並び順の基準|開始日|終了日|<select\b|type="date"/);
+  assert.match(html, /aria-label="検索結果一覧"/);
   const files = (await readdir(new URL("../data/", import.meta.url))).filter(name => /^\d{4}-\d{2}-\d{2}\.json$/.test(name));
   const reports = await Promise.all(files.map(async name => JSON.parse(await readFile(new URL("../data/" + name, import.meta.url), "utf8"))));
   const total = reports.reduce((sum, report) => sum + report.signals.length, 0);

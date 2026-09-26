@@ -174,3 +174,31 @@ h2 { margin: 0; font: 600 14px var(--font-geist-mono), monospace; letter-spacing
   .marker-wave { opacity: .2; }
   .marker-focus-halo { opacity: .4; }
 }
+
+/* Search controls stay separate from the scrollable results, including short resized panels. */
+.signals-panel { display: flex; flex-direction: column; overflow: hidden; }
+.signals-panel > .panel-heading { flex: 0 0 66px; }
+.signal-search-scroll { flex: 0 1 auto; min-height: 0; max-height: 55%; overflow: auto; border-bottom: 1px solid var(--line); }
+.signal-search { padding: 12px 16px; }
+.search-label { display: block; font-size: 12px; color: #a3bdc8; margin-bottom: 6px; }
+.signal-search input { width: 100%; min-width: 0; min-height: 44px; padding: 8px; border: 1px solid var(--line-strong); border-radius: 3px; background: #09131c; color: var(--text); font: inherit; font-size: 13px; color-scheme: dark; }
+.signal-search input:focus-visible, .signal-list:focus-visible { outline: 1px solid var(--cyan); outline-offset: -2px; }
+.search-hint { margin: 6px 0; font-size: 11px; color: #9bb0b9; }
+.active-filters { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 4px; font-size: 11px; color: #9bb0b9; }
+.active-filters button { min-height: 44px; max-width: 100%; padding: 5px 8px; background: rgba(83,216,255,.05); border: 1px solid var(--line); border-radius: 3px; color: #b2cfda; cursor: pointer; overflow-wrap: anywhere; text-align: left; }
+.active-filters button:disabled { opacity: .45; cursor: default; }
+.signals-panel .signal-list { flex: 1 1 120px; min-height: 72px; height: auto; }
+.signal-copy { overflow-wrap: anywhere; }
+.signal-dates { display: block; margin-top: 6px; color: #9bb0b9; font-size: 10px; line-height: 1.7; }
+.signal-dates time { white-space: nowrap; }
+.match-excerpt { display: block; color: #b0c3cc; font-size: 12px; line-height: 1.7; margin-top: 8px; }
+.match-label { color: #7aa3b5; margin-right: 8px; font-size: 10px; }
+mark { color: #d5f5ff; background: rgba(83,216,255,.23); border-radius: 2px; }
+@media (max-width: 950px) {
+  .right-column { grid-template-rows: auto auto; }
+  .signal-search-scroll { max-height: none; flex: none; overflow: visible; }
+  .signals-panel .signal-list { flex: none; height: 480px; }
+  .signal-dates { font-size: 11px; }
+  .signal-search { padding: 12px; }
+  .signal-search input { font-size: 16px; }
+}
